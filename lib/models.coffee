@@ -6,7 +6,7 @@ schema = mongoose.Schema {
   waarde: Number
 }
 Location = mongoose.model 'Location', schema
-Location.connect = () ->
-  mongoose.connect('localhost', 'waterstanden-test')
+Location.connect = (url) ->
+  mongoose.connect(url)
 
 exports.Location = Location

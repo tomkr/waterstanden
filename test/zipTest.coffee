@@ -5,6 +5,8 @@ processWaterdata = require('../lib/lib').processWaterdata
 
 csvToArray = require('../lib/lib').csvToArray
 
+Location = require('../lib/models').Location
+
 fs = require 'fs'
 path = require 'path'
 assert = require 'assert'
@@ -42,6 +44,9 @@ describe 'convert csv to array', ->
         done()
 
 describe 'the whole process', ->
-  it 'should not time out', () ->
+  it 'should not time out', (done) ->
+    Location.connect('mongodb://localhost:27017/waterstanden-test')
     this.timeout 10000
-    processWaterdata
+    processWaterdata ->
+      Location.db.close()
+      done()

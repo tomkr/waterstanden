@@ -53,13 +53,10 @@ writeToDb = (object, callback) ->
 
 # Turn the database into json. Dynamic for now.
 dbToJson = (callback) ->
-  Location.connect()
   Location.find (error, res) ->
     callback(error, res)
-    Location.db.close()
 
-processWaterdata = () ->
-  Location.connect()
+processWaterdata = (callback) ->
   # get the zipfile
   console.log 'Starting'
   getZip url, (zipstream) ->
@@ -72,8 +69,7 @@ processWaterdata = () ->
       # read the relevant files
       values = readData arrays
       # store the data in the database
-      async.each values, writeToDb, () ->
-        Location.db.close()
+      async.each values, writeToDb, callback
 
 exports.getZip = getZip
 exports.handleZip = handleZip
