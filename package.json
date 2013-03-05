@@ -5,6 +5,7 @@
   "dependencies": {
     "coffee-script": "*",
     "flatiron": "*",
+    "union": "*",
     "csv": "*",
     "async": "*",
     "node-zip": "*",
