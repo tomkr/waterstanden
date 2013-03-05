@@ -15,7 +15,6 @@ Location.connect(app.config.get('MONGOHQ_URL'))
 
 read = ->
   dbToJson (error, json) =>
-    Location.db.close()
     @res.writeHead(200, {'Content-Type': 'application/json'})
     @res.write JSON.stringify(json)
     @res.end()
