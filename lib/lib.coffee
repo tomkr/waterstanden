@@ -2,6 +2,7 @@ http = require 'http'
 csv = require 'csv'
 async = require 'async'
 zip = require 'node-zip'
+xml2js = require 'xml2js'
 Location = require('./models').Location
 
 # RWS open data url
@@ -71,6 +72,37 @@ processWaterdata = (callback) ->
       # store the data in the database
       async.each values, writeToDb, callback
 
+XML =
+  getXml: (url, callback) ->
+    http.get url, (res) ->
+      xmldata = new Buffer(0)
+      res.on 'data', (data) ->
+        xmldata = Buffer.concat [xmldata, data]
+      .on 'end', ->
+        parser = new xml2js.Parser()
+        parser.parseString xmldata.toString(), (error, result) ->
+          callback result
+
+  update: (location, callback) ->
+    Location.findOne {lokatie:location.lokatie}, (error, result) ->
+      console.log error
+      console.log result
+      if (error == null)
+        result.coordinaten.x = location.x
+        result.coordinaten.y = location.y
+        result.description = location.locatie_omschrijving
+        result.save()
+
+  process: (callback) ->
+    @getXml @url, (data) =>
+      locations = data.nat.waterdata
+      console.log locations
+      async.each locations, @update, (err) ->
+        console.log error
+        callback()
+
+  url: 'http://rws.nl/system/externen/meetnet-repository.aspx'
+
 exports.getZip = getZip
 exports.handleZip = handleZip
 exports.csvToArray = csvToArray
@@ -78,5 +110,5 @@ exports.url = url
 exports.processWaterdata = processWaterdata
 exports.dbToJson = dbToJson
 
-
+exports.XML = XML
 

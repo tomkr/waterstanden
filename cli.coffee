@@ -1,6 +1,7 @@
 flatiron = require 'flatiron'
 processWaterdata = require('./lib/lib').processWaterdata
 dbToJson = require('./lib/lib').dbToJson
+XML = require('./lib/lib').XML
 Location = require('./lib/models').Location
 
 app = flatiron.app
@@ -23,6 +24,11 @@ process = ->
   processWaterdata ->
     Location.db.close()
 
+metadata = ->
+  XML.process ->
+    Location.db.close()
+
 app.cmd 'process', process
 app.cmd 'read', read
+app.cmd 'metadata', metadata
 app.start()

@@ -9,7 +9,8 @@
     "csv": "*",
     "async": "*",
     "node-zip": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "xml2js": "*"
   },
   "devDependencies": {
     "mocha": "*"
