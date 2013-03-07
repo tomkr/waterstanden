@@ -54,7 +54,7 @@ writeToDb = (object, callback) ->
 
 # Turn the database into json. Dynamic for now.
 dbToJson = (callback) ->
-  Location.find (error, res) ->
+  Location.find {}, '-_id', (error, res) ->
     callback(error, res)
 
 processWaterdata = (callback) ->
