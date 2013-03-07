@@ -98,7 +98,6 @@ XML =
     @getXml @url, (data) =>
       locations = data.nat.waterdata
       async.each locations, @update, (error) ->
-        console.log 'Grabbing metadata'
         callback()
 
   url: 'http://rws.nl/system/externen/meetnet-repository.aspx'
