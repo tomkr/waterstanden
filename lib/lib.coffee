@@ -91,6 +91,7 @@ XML =
         result.coordinaten.y = parseFloat location.y
         result.omschrijving = location.locatie_omschrijving
         result.save()
+        console.log result
         console.log 'saved'
       callback()
 
