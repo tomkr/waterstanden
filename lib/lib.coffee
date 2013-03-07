@@ -90,6 +90,7 @@ XML =
         result.coordinaten.x = parseFloat location.x
         result.coordinaten.y = parseFloat location.y
         result.omschrijving = location.locatie_omschrijving
+        console.log 'saved'
       callback()
 
   process: (callback) ->
