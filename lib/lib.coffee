@@ -84,21 +84,18 @@ XML =
           callback result
 
   update: (location, callback) ->
-    Location.findOne {lokatie:location.lokatie}, (error, result) ->
-      console.log error
-      console.log result
-      if (error == null)
-        result.coordinaten.x = location.x
-        result.coordinaten.y = location.y
-        result.description = location.locatie_omschrijving
-        result.save()
+    Location.findOne {lokatie:location.locatie}, (error, result) ->
+      if (result != null)
+        result.coordinaten = {}
+        result.coordinaten.x = parseFloat location.x
+        result.coordinaten.y = parseFloat location.y
+        result.omschrijving = location.locatie_omschrijving
+      callback()
 
   process: (callback) ->
     @getXml @url, (data) =>
       locations = data.nat.waterdata
-      console.log locations
-      async.each locations, @update, (err) ->
-        console.log error
+      async.each locations, @update, (error) ->
         callback()
 
   url: 'http://rws.nl/system/externen/meetnet-repository.aspx'
