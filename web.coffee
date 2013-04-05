@@ -1,5 +1,5 @@
 flatiron = require 'flatiron'
-dbToJson = require('./lib/lib').dbToJson
+Waterdata = require('./lib/lib').Waterdata
 Location = require('./lib/models').Location
 
 app = flatiron.app
@@ -14,7 +14,7 @@ app.config.defaults({
 Location.connect(app.config.get('MONGOHQ_URL'))
 
 read = ->
-  dbToJson (error, json) =>
+  Waterdata.dbToJson (error, json) =>
     @res.writeHead(200, {'Content-Type': 'application/json'})
     @res.write JSON.stringify(json)
     @res.end()
@@ -22,3 +22,4 @@ read = ->
 port = process.env.PORT || 5000
 app.router.get '/', read
 app.listen(port)
+console.log "Waterdata draait op #{port}"

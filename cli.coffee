@@ -1,7 +1,6 @@
 flatiron = require 'flatiron'
-processWaterdata = require('./lib/lib').processWaterdata
-dbToJson = require('./lib/lib').dbToJson
-XML = require('./lib/lib').XML
+Waterdata = require('./lib/lib').Waterdata
+Metadata = require('./lib/lib').Metadata
 Location = require('./lib/models').Location
 
 app = flatiron.app
@@ -16,16 +15,16 @@ app.config.defaults({
 Location.connect(app.config.get('MONGOHQ_URL'))
 
 read = ->
-  dbToJson (error, res) -> 
+  Waterdata.dbToJson (error, res) -> 
     console.log res
     Location.db.close()
 
 process = ->
-  processWaterdata ->
+  Waterdata.processWaterdata ->
     Location.db.close()
 
 metadata = ->
-  XML.process ->
+  Metadata.process ->
     Location.db.close()
 
 app.cmd 'process', process
