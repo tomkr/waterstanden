@@ -3,12 +3,13 @@ mongoose = require 'mongoose'
 
 schema = mongoose.Schema {
   lokatie: String,
-  waarde: Number,
+  waarde: String,
   omschrijving: String,
   coordinaten: {
     x: Number,
     y: Number
-  }
+  },
+  laatstBijgewerkt: String
 }
 Location = mongoose.model 'Location', schema
 Location.connect = (url) ->

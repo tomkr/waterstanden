@@ -40,12 +40,13 @@ readData = (arrays) ->
   dataArray = arrays[1]
   parameterType = 3
   name = 1
+  lastUpdate = 8
   lastValue = 5
   for data, index in dataArray
     metadata = metadataArray[index]
     if metadata[parameterType].trim() == 'H10'
       #callback(metadata[name], parseInt data[lastValue])
-      res[res.length] = {lokatie: metadata[name].trim(), waarde:parseInt data[lastValue]}
+      res[res.length] = {lokatie: metadata[name].trim(), waarde:parseInt(data[lastValue]), laatstBijgewerkt: metadata[lastUpdate].trim()}
   return res
 
 # Write the new values to the database for storage
