@@ -14,7 +14,7 @@ Location.connect(app.config.get('MONGOHQ_URL'))
 
 read = ->
   Location.toJson (error, json) =>
-    @res.writeHead(200, {'Content-Type': 'application/json'})
+    @res.writeHead(200, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})
     @res.write JSON.stringify(json)
     @res.end()
 
