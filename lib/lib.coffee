@@ -54,11 +54,6 @@ Waterdata =
   writeToDb: (object, callback) ->
     Location.update {lokatie:object.lokatie}, object, {upsert: true}, callback
 
-  # Turn the database into json. Dynamic for now.
-  dbToJson: (callback) ->
-    Location.find {}, '-_id', (error, res) ->
-      callback(error, res)
-
   processWaterdata: (callback) ->
     # get the zipfile
     console.log 'Starting'

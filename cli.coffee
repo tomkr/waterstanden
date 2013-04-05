@@ -15,7 +15,7 @@ app.config.defaults({
 Location.connect(app.config.get('MONGOHQ_URL'))
 
 read = ->
-  Waterdata.dbToJson (error, res) -> 
+  Location.toJson (error, res) -> 
     console.log res
     Location.db.close()
 

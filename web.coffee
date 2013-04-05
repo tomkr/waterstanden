@@ -1,5 +1,4 @@
 flatiron = require 'flatiron'
-Waterdata = require('./lib/lib').Waterdata
 Location = require('./lib/models').Location
 
 app = flatiron.app
@@ -14,7 +13,7 @@ app.config.defaults({
 Location.connect(app.config.get('MONGOHQ_URL'))
 
 read = ->
-  Waterdata.dbToJson (error, json) =>
+  Location.toJson (error, json) =>
     @res.writeHead(200, {'Content-Type': 'application/json'})
     @res.write JSON.stringify(json)
     @res.end()

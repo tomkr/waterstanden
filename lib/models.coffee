@@ -11,8 +11,15 @@ schema = mongoose.Schema {
   },
   laatstBijgewerkt: String
 }
+
 Location = mongoose.model 'Location', schema
+
 Location.connect = (url) ->
   mongoose.connect(url)
+
+# Turn the database into json. Dynamic for now.
+Location.toJson = (callback) ->
+    Location.find {}, '-_id', (error, res) ->
+      callback(error, res)
 
 exports.Location = Location
