@@ -8,7 +8,6 @@ assert = require 'assert'
 describe 'get zip file from rws', ->
   
   it 'should get the zip file', (done) ->
-    # this.timeout(10000)
     Waterdata.getZip Waterdata.url, ->
       done()
 
@@ -36,11 +35,3 @@ describe 'convert csv to array', ->
       Waterdata.csvToArray dataFile, (error, res) ->
         assert.equal typeof(res), 'object'
         done()
-
-describe 'the whole process', ->
-  it 'should not time out', (done) ->
-    Location.connect('mongodb://localhost:27017/waterstanden-test')
-    this.timeout 10000
-    Waterdata.processWaterdata ->
-      Location.db.close()
-      done()
