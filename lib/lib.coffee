@@ -5,7 +5,7 @@ zip = require 'node-zip'
 xml2js = require 'xml2js'
 Location = require('./models').Location
 
-Waterdata = 
+Waterdata =
   # RWS open data url
   url: 'http://www.rws.nl/rws/opendata/meetdata/meetdata.zip'
 
@@ -42,12 +42,11 @@ Waterdata =
     parameterType = 3
     name = 1
     lastUpdate = 8
-    lastValue = 5
     for data, index in dataArray
       metadata = metadataArray[index]
       if metadata[parameterType].trim() == 'H10'
         #callback(metadata[name], parseInt data[lastValue])
-        res[res.length] = {lokatie: metadata[name].trim(), waarde:parseInt(data[lastValue]), laatstBijgewerkt: metadata[lastUpdate].trim()}
+        res[res.length] = {lokatie: metadata[name].trim(), waarde:@getLastValue(data), laatstBijgewerkt: metadata[lastUpdate].trim()}
     return res
 
   # Write the new values to the database for storage
@@ -68,6 +67,13 @@ Waterdata =
         values = @readData arrays
         # store the data in the database
         async.each values, @writeToDb, callback
+
+  getLastValue: (values) ->
+    numbers = values.filter (value) ->
+      value = value.replace(' ','')
+      value.length > 0 and (value >=0 or value < 0)
+    return '-' if numbers.length < 1
+    parseInt(numbers[numbers.length-1])
 
 Metadata =
   getXml: (url, callback) ->
